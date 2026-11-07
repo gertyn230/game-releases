@@ -504,12 +504,42 @@ footer {
 footer a {
   color: var(--accent-1);
   text-decoration: none;
-  transition: color 0.3s;
+  transition: all 0.3s;
   font-weight: 600;
 }
 
 footer a:hover {
   color: var(--accent-2);
+}
+
+.telegram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #0088cc 0%, #229ED9 100%);
+  color: white !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: 100px;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 24px rgba(0, 136, 204, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.telegram-link:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 136, 204, 0.5);
+  color: white !important;
+}
+
+.telegram-icon {
+  font-size: 1.3rem;
+  display: inline-block;
+  animation: telegramFloat 2s ease-in-out infinite;
+}
+
+@keyframes telegramFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
 /* Responsive */
@@ -672,11 +702,15 @@ footer a:hover {
 
   <footer class="reveal">
     <p>
-      <span data-i18n="footer-made">🎮 Створено з ❤️</span> |
-      <a href="https://github.com/gertyn230/game" target="_blank">GitHub</a> |
-      <a href="https://github.com/gertyn230/game-releases/releases" target="_blank" data-i18n="footer-releases">Усі версії</a>
+      <span data-i18n="footer-made">🎮 Створено з ❤️</span>
     </p>
-    <p style="margin-top: 1rem; opacity: 0.5;">
+    <p style="margin-top: 1.5rem;">
+      <a href="https://t.me/pixel_village" target="_blank" class="telegram-link">
+        <span class="telegram-icon">✈️</span>
+        <span data-i18n="footer-telegram">Telegram канал</span>
+      </a>
+    </p>
+    <p style="margin-top: 1.5rem; opacity: 0.5;">
       © 2026 Pixel Village
     </p>
   </footer>
@@ -718,7 +752,7 @@ const translations = {
     'feature-economy-title': 'Економіка',
     'feature-economy-desc': 'Ринок з іншими гравцями та торгівля',
     'footer-made': '🎮 Створено з ❤️',
-    'footer-releases': 'Усі версії'
+    'footer-telegram': 'Telegram канал'
   },
   en: {
     title: 'Pixel Village',
@@ -743,7 +777,7 @@ const translations = {
     'feature-economy-title': 'Economy',
     'feature-economy-desc': 'Market with other players and trading',
     'footer-made': '🎮 Made with ❤️',
-    'footer-releases': 'All versions'
+    'footer-telegram': 'Telegram channel'
   },
   ru: {
     title: 'Pixel Village',
@@ -768,7 +802,7 @@ const translations = {
     'feature-economy-title': 'Экономика',
     'feature-economy-desc': 'Рынок с другими игроками и торговля',
     'footer-made': '🎮 Создано с ❤️',
-    'footer-releases': 'Все версии'
+    'footer-telegram': 'Telegram канал'
   }
 };
 
