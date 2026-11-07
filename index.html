@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Pixel Village — завантажити гру</title>
+<meta name="description" content="Pixel Village: піксельне село з іншими гравцями. Завантажте для Windows або Android.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap">
+<style>
+:root{
+  --sky:#14213d; --sky-2:#1d3057; --window:#ffc857; --grass:#5fb35b;
+  --stone:#9aa7bd; --text:#eef2f8; --muted:#aab6cb; --card:#1b2a4a; --line:#35487a;
+  --btn-text:#14213d;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --sky:#e9f0fb; --sky-2:#d5e2f7; --window:#b87d00; --grass:#2f7a34;
+    --stone:#51607a; --text:#14213d; --muted:#44536e; --card:#ffffff; --line:#b7c6e0;
+    --btn-text:#ffffff;
+    color-scheme: light;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; min-height:100vh; background:var(--sky); color:var(--text);
+  font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);
+}
+main{max-width:46rem;margin:0 auto;padding:2.5rem 1.25rem 3rem}
+h1{
+  font:700 clamp(2.2rem,9vw,3.6rem)/1.05 "Silkscreen",ui-monospace,Menlo,Consolas,monospace;
+  margin:1.25rem 0 .75rem; letter-spacing:.01em;
+}
+h2{font:700 1.15rem/1.3 "Silkscreen",ui-monospace,Menlo,Consolas,monospace;margin:2.5rem 0 .75rem}
+p{margin:0 0 1rem;max-width:62ch}
+.lead{font-size:1.15rem;color:var(--muted)}
+.skyline{display:block;width:100%;height:auto;max-width:34rem;image-rendering:pixelated}
+.downloads{display:grid;gap:1rem;margin-top:1.75rem}
+@media (min-width:36rem){.downloads{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:2px solid var(--line);padding:1.1rem 1.1rem 1.25rem;border-radius:4px}
+.card h3{margin:0 0 .25rem;font-size:1.1rem}
+.card p{color:var(--muted);font-size:.95rem;margin-bottom:1rem}
+.btn{
+  display:inline-block;background:var(--window);color:var(--btn-text);font-weight:700;
+  text-decoration:none;padding:.7rem 1.1rem;border-radius:3px;border:2px solid transparent;
+}
+.btn:hover{filter:brightness(1.08)}
+:focus-visible{outline:3px solid var(--grass);outline-offset:3px}
+.version{margin:1.25rem 0 0;color:var(--muted);font-size:.95rem;min-height:1.5em}
+.version b{color:var(--text)}
+.notes{display:none;margin-top:1rem;padding:1rem;border-left:4px solid var(--grass);background:var(--sky-2);white-space:pre-wrap;font-size:.95rem}
+ol{padding-left:1.25rem;margin:0 0 1rem}
+li{margin:.35rem 0;max-width:62ch}
+.note{color:var(--muted);font-size:.92rem}
+footer{margin-top:3rem;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+  <svg class="skyline" viewBox="0 0 68 22" shape-rendering="crispEdges" role="img" aria-label="Піксельні будиночки на зеленому пагорбі">
+    <rect x="0" y="18" width="68" height="4" fill="var(--grass)"/>
+    <rect x="6" y="2" width="1" height="1" fill="var(--window)"/>
+    <rect x="54" y="4" width="1" height="1" fill="var(--stone)"/>
+    <rect x="30" y="1" width="1" height="1" fill="var(--stone)"/>
+    <!-- будинок 1 -->
+    <rect x="4" y="11" width="14" height="7" fill="var(--stone)"/>
+    <rect x="3" y="10" width="16" height="1" fill="#c0563f"/><rect x="5" y="9" width="12" height="1" fill="#c0563f"/><rect x="7" y="8" width="8" height="1" fill="#c0563f"/>
+    <rect x="7" y="13" width="3" height="3" fill="var(--window)"/><rect x="12" y="14" width="3" height="4" fill="var(--sky)"/>
+    <!-- будинок 2, вищий -->
+    <rect x="24" y="8" width="16" height="10" fill="var(--stone)"/>
+    <rect x="23" y="7" width="18" height="1" fill="#c0563f"/><rect x="25" y="6" width="14" height="1" fill="#c0563f"/><rect x="27" y="5" width="10" height="1" fill="#c0563f"/><rect x="29" y="4" width="6" height="1" fill="#c0563f"/>
+    <rect x="27" y="10" width="3" height="3" fill="var(--window)"/><rect x="34" y="10" width="3" height="3" fill="var(--window)"/><rect x="30" y="14" width="4" height="4" fill="var(--sky)"/>
+    <!-- будинок 3 -->
+    <rect x="46" y="12" width="12" height="6" fill="var(--stone)"/>
+    <rect x="45" y="11" width="14" height="1" fill="#c0563f"/><rect x="47" y="10" width="10" height="1" fill="#c0563f"/><rect x="49" y="9" width="6" height="1" fill="#c0563f"/>
+    <rect x="48" y="14" width="3" height="3" fill="var(--window)"/><rect x="53" y="14" width="3" height="4" fill="var(--sky)"/>
+    <!-- дерево -->
+    <rect x="62" y="14" width="2" height="4" fill="#7a5230"/><rect x="60" y="10" width="6" height="4" fill="var(--grass)"/><rect x="61" y="8" width="4" height="2" fill="var(--grass)"/>
+  </svg>
+
+  <h1>Pixel Village</h1>
+  <p class="lead">Піксельне село, де ви грате разом з іншими гравцями. Завантажте гру й заходьте на сервер.</p>
+
+  <div class="downloads">
+    <section class="card">
+      <h3>Windows</h3>
+      <p>Один файл, без інсталятора. Просто запустіть.</p>
+      <a class="btn" id="dl-win" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage.exe">Завантажити для Windows</a>
+    </section>
+    <section class="card">
+      <h3>Android</h3>
+      <p>Файл APK. Встановіть його на телефон.</p>
+      <a class="btn" id="dl-apk" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-android.apk">Завантажити для Android</a>
+    </section>
+  </div>
+
+  <p class="version" id="version" aria-live="polite"></p>
+  <div class="notes" id="notes"></div>
+
+  <h2>Як встановити</h2>
+  <p><b>Windows.</b></p>
+  <ol>
+    <li>Завантажте <code>PixelVillage.exe</code> і покладіть у будь-яку папку, не в Program Files.</li>
+    <li>Запустіть файл. Якщо Windows показує «Windows захистила ваш ПК», натисніть «Докладніше», потім «Все одно запустити».</li>
+  </ol>
+  <p><b>Android.</b></p>
+  <ol>
+    <li>Завантажте APK і відкрийте його.</li>
+    <li>Android попросить дозволити встановлення з цього джерела. Дозвольте й натисніть «Встановити».</li>
+  </ol>
+  <p class="note">Попередження з’являються, бо гра поки не підписана платним сертифікатом видавця й не з магазину. Файли збирає автоматично GitHub із коду гри.</p>
+
+  <h2>Оновлення</h2>
+  <p>Коли виходить нова версія, гра сама покаже вікно оновлення з кнопкою «Встановити». Заново качати гру не потрібно, а ваш прогрес зберігається.</p>
+
+  <footer>Pixel Village</footer>
+</main>
+
+<script>
+(function () {
+  var v = document.getElementById('version');
+  var n = document.getElementById('notes');
+  try {
+    fetch('https://api.github.com/repos/gertyn230/game-releases/releases/latest', { headers: { 'Accept': 'application/vnd.github+json' } })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) {
+        var tag = String(d.tag_name || '').replace(/^v/, '');
+        if (!tag) return;
+        var date = d.published_at ? new Date(d.published_at).toLocaleDateString('uk-UA') : '';
+        v.innerHTML = '';
+        var b = document.createElement('b');
+        b.textContent = 'Остання версія ' + tag;
+        v.appendChild(b);
+        if (date) v.appendChild(document.createTextNode(', випущена ' + date));
+        if (d.body && d.body.trim()) { n.textContent = d.body.trim(); n.style.display = 'block'; }
+      })
+      .catch(function () { /* реліз ще не створено або GitHub недоступний — ховаємо блок версії */ });
+  } catch (e) { /* ignore */ }
+})();
+</script>
+</body>
+</html>
