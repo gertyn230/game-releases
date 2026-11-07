@@ -3,146 +3,448 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark light">
-<title>Pixel Village — завантажити гру</title>
-<meta name="description" content="Pixel Village: піксельне село з іншими гравцями. Завантажте для Windows або Android.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap">
+<title>Pixel Village — Завантажити гру</title>
+<meta name="description" content="Pixel Village: піксельна мультиплеєр гра з автоматичним оновленням. Завантажте для Windows або Android.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏡%3C/text%3E%3C/svg%3E">
 <style>
-:root{
-  --sky:#14213d; --sky-2:#1d3057; --window:#ffc857; --grass:#5fb35b;
-  --stone:#9aa7bd; --text:#eef2f8; --muted:#aab6cb; --card:#1b2a4a; --line:#35487a;
-  --btn-text:#14213d;
-  color-scheme: dark;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-@media (prefers-color-scheme: light){
-  :root{
-    --sky:#e9f0fb; --sky-2:#d5e2f7; --window:#b87d00; --grass:#2f7a34;
-    --stone:#51607a; --text:#14213d; --muted:#44536e; --card:#ffffff; --line:#b7c6e0;
-    --btn-text:#ffffff;
-    color-scheme: light;
+
+:root {
+  --bg-from: #0f0c29;
+  --bg-via: #302b63;
+  --bg-to: #24243e;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --accent: #667eea;
+  --accent-hover: #764ba2;
+  --success: #10b981;
+  --android: #3ddc84;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-via) 50%, var(--bg-to) 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated background particles */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: float 20s infinite ease-in-out;
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 15s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 18s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 22s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 20s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 3s; animation-duration: 17s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 19s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 2s; animation-duration: 21s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 4s; animation-duration: 16s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 1s; animation-duration: 23s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+header {
+  text-align: center;
+  padding: 3rem 0;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.logo {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  animation: bounce 2s infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInDown 0.8s ease-out 0.2s both;
+}
+
+.tagline {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  animation: fadeInDown 0.8s ease-out 0.4s both;
+}
+
+.version-badge {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  animation: fadeIn 0.8s ease-out 0.6s both;
+}
+
+.downloads {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.card:nth-child(1) { animation-delay: 0.2s; }
+.card:nth-child(2) { animation-delay: 0.4s; }
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.card h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-windows {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  color: white;
+}
+
+.btn-windows:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.btn-android {
+  background: linear-gradient(135deg, #3ddc84 0%, #2ab968 100%);
+  color: white;
+}
+
+.btn-android:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(61, 220, 132, 0.4);
+}
+
+.features {
+  margin: 4rem 0;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.features h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.feature h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+footer {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  animation: fadeIn 0.8s ease-out 0.8s both;
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--accent-hover);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-*{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{
-  margin:0; min-height:100vh; background:var(--sky); color:var(--text);
-  font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-main{max-width:46rem;margin:0 auto;padding:2.5rem 1.25rem 3rem}
-h1{
-  font:700 clamp(2.2rem,9vw,3.6rem)/1.05 "Silkscreen",ui-monospace,Menlo,Consolas,monospace;
-  margin:1.25rem 0 .75rem; letter-spacing:.01em;
+
+@media (max-width: 768px) {
+  .logo { font-size: 3.5rem; }
+  h1 { font-size: 2.5rem; }
+  .tagline { font-size: 1.1rem; }
+  .downloads { grid-template-columns: 1fr; gap: 1.5rem; }
 }
-h2{font:700 1.15rem/1.3 "Silkscreen",ui-monospace,Menlo,Consolas,monospace;margin:2.5rem 0 .75rem}
-p{margin:0 0 1rem;max-width:62ch}
-.lead{font-size:1.15rem;color:var(--muted)}
-.skyline{display:block;width:100%;height:auto;max-width:34rem;image-rendering:pixelated}
-.downloads{display:grid;gap:1rem;margin-top:1.75rem}
-@media (min-width:36rem){.downloads{grid-template-columns:1fr 1fr}}
-.card{background:var(--card);border:2px solid var(--line);padding:1.1rem 1.1rem 1.25rem;border-radius:4px}
-.card h3{margin:0 0 .25rem;font-size:1.1rem}
-.card p{color:var(--muted);font-size:.95rem;margin-bottom:1rem}
-.btn{
-  display:inline-block;background:var(--window);color:var(--btn-text);font-weight:700;
-  text-decoration:none;padding:.7rem 1.1rem;border-radius:3px;border:2px solid transparent;
-}
-.btn:hover{filter:brightness(1.08)}
-:focus-visible{outline:3px solid var(--grass);outline-offset:3px}
-.version{margin:1.25rem 0 0;color:var(--muted);font-size:.95rem;min-height:1.5em}
-.version b{color:var(--text)}
-.notes{display:none;margin-top:1rem;padding:1rem;border-left:4px solid var(--grass);background:var(--sky-2);white-space:pre-wrap;font-size:.95rem}
-ol{padding-left:1.25rem;margin:0 0 1rem}
-li{margin:.35rem 0;max-width:62ch}
-.note{color:var(--muted);font-size:.92rem}
-footer{margin-top:3rem;color:var(--muted);font-size:.9rem}
 </style>
 </head>
 <body>
-<main>
-  <svg class="skyline" viewBox="0 0 68 22" shape-rendering="crispEdges" role="img" aria-label="Піксельні будиночки на зеленому пагорбі">
-    <rect x="0" y="18" width="68" height="4" fill="var(--grass)"/>
-    <rect x="6" y="2" width="1" height="1" fill="var(--window)"/>
-    <rect x="54" y="4" width="1" height="1" fill="var(--stone)"/>
-    <rect x="30" y="1" width="1" height="1" fill="var(--stone)"/>
-    <!-- будинок 1 -->
-    <rect x="4" y="11" width="14" height="7" fill="var(--stone)"/>
-    <rect x="3" y="10" width="16" height="1" fill="#c0563f"/><rect x="5" y="9" width="12" height="1" fill="#c0563f"/><rect x="7" y="8" width="8" height="1" fill="#c0563f"/>
-    <rect x="7" y="13" width="3" height="3" fill="var(--window)"/><rect x="12" y="14" width="3" height="4" fill="var(--sky)"/>
-    <!-- будинок 2, вищий -->
-    <rect x="24" y="8" width="16" height="10" fill="var(--stone)"/>
-    <rect x="23" y="7" width="18" height="1" fill="#c0563f"/><rect x="25" y="6" width="14" height="1" fill="#c0563f"/><rect x="27" y="5" width="10" height="1" fill="#c0563f"/><rect x="29" y="4" width="6" height="1" fill="#c0563f"/>
-    <rect x="27" y="10" width="3" height="3" fill="var(--window)"/><rect x="34" y="10" width="3" height="3" fill="var(--window)"/><rect x="30" y="14" width="4" height="4" fill="var(--sky)"/>
-    <!-- будинок 3 -->
-    <rect x="46" y="12" width="12" height="6" fill="var(--stone)"/>
-    <rect x="45" y="11" width="14" height="1" fill="#c0563f"/><rect x="47" y="10" width="10" height="1" fill="#c0563f"/><rect x="49" y="9" width="6" height="1" fill="#c0563f"/>
-    <rect x="48" y="14" width="3" height="3" fill="var(--window)"/><rect x="53" y="14" width="3" height="4" fill="var(--sky)"/>
-    <!-- дерево -->
-    <rect x="62" y="14" width="2" height="4" fill="#7a5230"/><rect x="60" y="10" width="6" height="4" fill="var(--grass)"/><rect x="61" y="8" width="4" height="2" fill="var(--grass)"/>
-  </svg>
+<div class="particles">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
 
-  <h1>Pixel Village</h1>
-  <p class="lead">Піксельне село, де ви грате разом з іншими гравцями. Завантажте гру й заходьте на сервер.</p>
+<div class="container">
+  <header>
+    <div class="logo">🏡</div>
+    <h1>Pixel Village</h1>
+    <p class="tagline">Піксельне село з іншими гравцями онлайн</p>
+    <span class="version-badge">✨ v1.3.6 — Автооновлення</span>
+  </header>
 
   <div class="downloads">
-    <section class="card">
-      <h3>Windows</h3>
-      <p>Один файл, без інсталятора. Просто запустіть.</p>
-      <a class="btn" id="dl-win" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage.exe">Завантажити для Windows</a>
-    </section>
-    <section class="card">
-      <h3>Android</h3>
-      <p>Файл APK. Встановіть його на телефон.</p>
-      <a class="btn" id="dl-apk" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-android.apk">Завантажити для Android</a>
-    </section>
+    <div class="card">
+      <span class="card-icon">💻</span>
+      <h2>Windows</h2>
+      <p class="card-meta">9 MB • Автооновлення • Windows 10/11</p>
+      <a href="https://github.com/gertyn230/game-releases/releases/download/v1.3.6/PixelVillage.exe" class="btn btn-windows">
+        ⬇️ Завантажити Windows
+      </a>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">📱</span>
+      <h2>Android</h2>
+      <p class="card-meta">15 MB • APK • Android 5.0+</p>
+      <a href="https://github.com/gertyn230/game-releases/releases/download/v1.3.6/PixelVillage-android.apk" class="btn btn-android">
+        ⬇️ Завантажити Android
+      </a>
+    </div>
   </div>
 
-  <p class="version" id="version" aria-live="polite"></p>
-  <div class="notes" id="notes"></div>
+  <section class="features">
+    <h2>✨ Особливості</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon">🌍</span>
+        <h3>Мультиплеєр</h3>
+        <p>Грайте разом з друзями в реальному часі</p>
+      </div>
 
-  <h2>Як встановити</h2>
-  <p><b>Windows.</b></p>
-  <ol>
-    <li>Завантажте <code>PixelVillage.exe</code> і покладіть у будь-яку папку, не в Program Files.</li>
-    <li>Запустіть файл. Якщо Windows показує «Windows захистила ваш ПК», натисніть «Докладніше», потім «Все одно запустити».</li>
-  </ol>
-  <p><b>Android.</b></p>
-  <ol>
-    <li>Завантажте APK і відкрийте його.</li>
-    <li>Android попросить дозволити встановлення з цього джерела. Дозвольте й натисніть «Встановити».</li>
-  </ol>
-  <p class="note">Попередження з’являються, бо гра поки не підписана платним сертифікатом видавця й не з магазину. Файли збирає автоматично GitHub із коду гри.</p>
+      <div class="feature">
+        <span class="feature-icon">🔄</span>
+        <h3>Автооновлення</h3>
+        <p>Гра оновлюється автоматично до останньої версії</p>
+      </div>
 
-  <h2>Оновлення</h2>
-  <p>Коли виходить нова версія, гра сама покаже вікно оновлення з кнопкою «Встановити». Заново качати гру не потрібно, а ваш прогрес зберігається.</p>
+      <div class="feature">
+        <span class="feature-icon">🎮</span>
+        <h3>Проста механіка</h3>
+        <p>Збирай ресурси, будуй та торгуй</p>
+      </div>
 
-  <footer>Pixel Village</footer>
-</main>
+      <div class="feature">
+        <span class="feature-icon">🐟</span>
+        <h3>Риболовля</h3>
+        <p>Лови рибу та прокачуй навички</p>
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">🌲</span>
+        <h3>Дослідження</h3>
+        <p>Велика карта 80x80 з різними біомами</p>
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">💰</span>
+        <h3>Економіка</h3>
+        <p>Ринок з іншими гравцями та торгівля</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      🎮 Створено з ❤️ |
+      <a href="https://github.com/gertyn230/game" target="_blank">GitHub</a> |
+      <a href="https://github.com/gertyn230/game-releases/releases" target="_blank">Усі версії</a>
+    </p>
+    <p style="margin-top: 1rem; opacity: 0.6;">
+      © 2026 Pixel Village
+    </p>
+  </footer>
+</div>
 
 <script>
-(function () {
-  var v = document.getElementById('version');
-  var n = document.getElementById('notes');
-  try {
-    fetch('https://api.github.com/repos/gertyn230/game-releases/releases/latest', { headers: { 'Accept': 'application/vnd.github+json' } })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (d) {
-        var tag = String(d.tag_name || '').replace(/^v/, '');
-        if (!tag) return;
-        var date = d.published_at ? new Date(d.published_at).toLocaleDateString('uk-UA') : '';
-        v.innerHTML = '';
-        var b = document.createElement('b');
-        b.textContent = 'Остання версія ' + tag;
-        v.appendChild(b);
-        if (date) v.appendChild(document.createTextNode(', випущена ' + date));
-        if (d.body && d.body.trim()) { n.textContent = d.body.trim(); n.style.display = 'block'; }
-      })
-      .catch(function () { /* реліз ще не створено або GitHub недоступний — ховаємо блок версії */ });
-  } catch (e) { /* ignore */ }
-})();
+// Fetch latest release info
+fetch('https://api.github.com/repos/gertyn230/game-releases/releases/latest')
+  .then(r => r.json())
+  .then(data => {
+    const version = data.tag_name;
+    const badge = document.querySelector('.version-badge');
+    if (badge && version) {
+      badge.textContent = `✨ ${version} — Автооновлення`;
+    }
+
+    // Update download links
+    const winBtn = document.querySelector('.btn-windows');
+    const androidBtn = document.querySelector('.btn-android');
+
+    data.assets.forEach(asset => {
+      if (asset.name === 'PixelVillage.exe' && winBtn) {
+        winBtn.href = asset.browser_download_url;
+      }
+      if (asset.name === 'PixelVillage-android.apk' && androidBtn) {
+        androidBtn.href = asset.browser_download_url;
+      }
+    });
+  })
+  .catch(err => console.log('Could not fetch latest release:', err));
 </script>
 </body>
 </html>
