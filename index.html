@@ -1,1194 +1,297 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pixel Village - Мультиплеєр гра на виживання</title>
-<meta name="description" content="Безкоштовна мультиплеєр гра на виживання з піксельною графікою. Грай з друзями, будуй, торгуй та досліджуй світ.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏡%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pixel Village — Build your own little world</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --bg-dark: #0a0e27;
-  --bg-darker: #070b1f;
-  --bg-card: #12172e;
-  --accent-primary: #7c3aed;
-  --accent-secondary: #a855f7;
-  --accent-glow: rgba(124, 58, 237, 0.5);
-  --text: #ffffff;
-  --text-muted: #94a3b8;
-  --success: #10b981;
-  --android: #3ddc84;
-  --warning: #f59e0b;
-  --border: rgba(148, 163, 184, 0.1);
-  --glow: rgba(124, 58, 237, 0.3);
-}
-
-body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg-dark);
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Grid background */
-.grid-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Gradient orb */
-.gradient-orb {
-  position: fixed;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.15;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.orb-1 {
-  background: radial-gradient(circle, var(--accent-primary), transparent);
-  top: -300px;
-  right: -200px;
-}
-
-.orb-2 {
-  background: radial-gradient(circle, var(--accent-secondary), transparent);
-  bottom: -300px;
-  left: -200px;
-}
-
-/* Language Selector */
-.lang-switch {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  display: flex;
-  gap: 8px;
-  z-index: 100;
-  background: var(--bg-card);
-  padding: 6px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  backdrop-filter: blur(10px);
-}
-
-.lang-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 20px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.lang-btn:hover {
-  background: rgba(124, 58, 237, 0.1);
-  transform: scale(1.05);
-}
-
-.lang-btn.active {
-  background: var(--accent-primary);
-  color: white;
-  box-shadow: 0 0 20px var(--glow);
-}
-
-/* Container */
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* Navigation */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-  margin-bottom: 40px;
-}
-
-.logo-text {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 32px;
-  list-style: none;
-}
-
-.nav-links a {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.nav-links a:hover {
-  color: var(--text);
-}
-
-/* Hero Section */
-.hero {
-  text-align: center;
-  padding: 80px 20px 60px;
-  position: relative;
-}
-
-.hero-icon {
-  font-size: 120px;
-  margin-bottom: 24px;
-  display: inline-block;
-  filter: drop-shadow(0 0 40px var(--glow));
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-h1 {
-  font-size: clamp(48px, 8vw, 84px);
-  font-weight: 800;
-  margin-bottom: 16px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--text) 0%, var(--accent-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-subtitle {
-  font-size: clamp(18px, 3vw, 24px);
-  color: var(--text-muted);
-  margin-bottom: 32px;
-  font-weight: 400;
-}
-
-.hero-badges {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 48px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  padding: 10px 20px;
-  border-radius: 100px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.badge.version {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: var(--success);
-}
-
-.badge.players {
-  background: rgba(124, 58, 237, 0.1);
-  border-color: rgba(124, 58, 237, 0.3);
-  color: var(--accent-secondary);
-}
-
-/* CTA Buttons */
-.cta-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 32px;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  color: white;
-  box-shadow: 0 4px 20px var(--glow);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px var(--glow);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--text);
-  border-color: var(--border);
-}
-
-.btn-secondary:hover {
-  border-color: var(--accent-primary);
-  background: rgba(124, 58, 237, 0.05);
-}
-
-/* Download Section */
-.downloads {
-  padding: 80px 0;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.section-title {
-  font-size: clamp(36px, 5vw, 48px);
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.section-subtitle {
-  font-size: 18px;
-  color: var(--text-muted);
-}
-
-.download-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 32px;
-  margin-top: 40px;
-}
-
-.download-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.download-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.download-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent-primary);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.download-card:hover::before {
-  opacity: 1;
-}
-
-.platform-icon {
-  font-size: 56px;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.download-card h3 {
-  font-size: 28px;
-  margin-bottom: 8px;
-  font-weight: 700;
-}
-
-.platform-meta {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.meta-tag {
-  background: rgba(148, 163, 184, 0.1);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.download-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 14px 28px;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 10px;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
-
-.btn-windows {
-  background: var(--accent-primary);
-  color: white;
-}
-
-.btn-windows:hover {
-  background: var(--accent-secondary);
-  transform: scale(1.02);
-}
-
-.btn-linux {
-  background: #f59e0b;
-  color: white;
-}
-
-.btn-linux:hover {
-  background: #d97706;
-  transform: scale(1.02);
-}
-
-.btn-android {
-  background: var(--android);
-  color: white;
-}
-
-.btn-android:hover {
-  background: #2ab968;
-  transform: scale(1.02);
-}
-
-.btn-macos {
-  background: linear-gradient(135deg, #000000, #434343);
-  color: white;
-}
-
-.btn-macos:hover {
-  background: linear-gradient(135deg, #1a1a1a, #5a5a5a);
-  transform: scale(1.02);
-}
-
-.btn-ios {
-  background: linear-gradient(135deg, #007AFF, #0051D5);
-  color: white;
-}
-
-.btn-ios:hover {
-  background: linear-gradient(135deg, #0062CC, #003DA8);
-  transform: scale(1.02);
-}
-
-/* Features */
-.features {
-  padding: 80px 0;
-  background: var(--bg-darker);
-  margin: 0 -20px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.feature-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 32px;
-  transition: all 0.3s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent-primary);
-}
-
-.feature-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.feature-card h3 {
-  font-size: 20px;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.feature-card p {
-  color: var(--text-muted);
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-/* Community */
-.community {
-  padding: 80px 0;
-}
-
-.community-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 32px;
-  margin-top: 40px;
-}
-
-.community-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 48px;
-  text-decoration: none;
-  color: var(--text);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-
-.community-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.discord-card::before {
-  background: linear-gradient(90deg, #5865f2, #7289da);
-}
-
-.telegram-card::before {
-  background: linear-gradient(90deg, #0088cc, #229ED9);
-}
-
-.community-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent-primary);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.community-card:hover::before {
-  opacity: 1;
-}
-
-.community-icon {
-  font-size: 64px;
-  margin-bottom: 24px;
-}
-
-.community-card h3 {
-  font-size: 28px;
-  margin-bottom: 12px;
-  font-weight: 700;
-}
-
-.community-card p {
-  color: var(--text-muted);
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 24px;
-  flex: 1;
-}
-
-.community-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  background: rgba(124, 58, 237, 0.1);
-  border-radius: 12px;
-  font-weight: 600;
-  color: var(--accent-secondary);
-  transition: all 0.2s;
-}
-
-.community-card:hover .community-btn {
-  background: var(--accent-primary);
-  color: white;
-  transform: translateX(4px);
-}
-
-/* Footer */
-footer {
-  padding: 80px 0 40px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-
-.footer-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
-}
-
-.footer-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-link:hover {
-  color: var(--accent-primary);
-}
-
-.footer-social {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.social-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-
-.social-btn:hover {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-  transform: translateY(-2px);
-}
-
-.copyright {
-  color: var(--text-muted);
-  font-size: 14px;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .features {
-    margin: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero {
-    padding: 60px 20px 40px;
-  }
-
-  .hero-icon {
-    font-size: 80px;
-  }
-
-  h1 {
-    font-size: 48px;
-  }
-
-  .hero-subtitle {
-    font-size: 18px;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .download-grid,
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .lang-switch {
-    top: 16px;
-    right: 16px;
-    padding: 4px;
-  }
-
-  .lang-btn {
-    padding: 6px 10px;
-    font-size: 18px;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .community-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .community-card {
-    padding: 32px;
-  }
-}
-
-/* Scroll animations */
-@media (prefers-reduced-motion: no-preference) {
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+*{box-sizing:border-box;margin:0}
+:root{--sheet:#f4f8f5;--soft:#e3eee7;--ink:#10261c;--mute:#52665a;--leaf:#4fae5a;--river:#38a3e0;--sun:#ffc83d;--line:rgba(16,38,28,.15);--tint:transparent;--bg:#bfe6f5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--sheet:#0f1b16;--soft:#18271f;--ink:#e9f2ec;--mute:#9fb5a7;--line:rgba(233,242,236,.16);--tint:rgba(70,85,165,.5);--bg:#16202c}}
+:root[data-theme="dark"]{--sheet:#0f1b16;--soft:#18271f;--ink:#e9f2ec;--mute:#9fb5a7;--line:rgba(233,242,236,.16);--tint:rgba(70,85,165,.5);--bg:#16202c}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{font:500 17px/1.65 'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+h1,h2,h3,.logo,.tab,.big{font-family:'Bricolage Grotesque','DM Sans',system-ui,sans-serif}
+#w{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:-2}
+#t{position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--tint);mix-blend-mode:multiply}
+a:focus-visible,button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;padding:calc(env(safe-area-inset-top,0px) + 10px) 5vw 10px;display:flex;align-items:center;gap:28px;color:#fff;text-shadow:0 1px 12px rgba(8,35,28,.55);transition:background .25s,color .25s,box-shadow .25s}
+.nav.s{background:var(--sheet);color:var(--ink);text-shadow:none;box-shadow:0 1px 0 var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;color:inherit;text-decoration:none;letter-spacing:-.01em}
+.nav ul{display:flex;gap:6px;list-style:none;margin-left:auto}
+.nav li a{color:inherit;text-decoration:none;font-weight:700;font-size:16px;padding:8px 14px;border-radius:999px}
+.nav li a:hover{background:rgba(255,255,255,.2)}.nav.s li a:hover{background:var(--soft)}
+.nav li a.go{background:var(--sun);color:#10261c;text-shadow:none}
+#mb{display:none;margin-left:auto;background:none;border:2px solid currentColor;color:inherit;border-radius:999px;font:700 15px 'DM Sans';padding:6px 16px;cursor:pointer}
+@media(max-width:860px){#mb{display:block}.nav ul{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;padding:12px 5vw 20px;background:var(--sheet);color:var(--ink);text-shadow:none;box-shadow:0 12px 24px rgba(0,0,0,.15)}.nav.o ul{display:flex}.nav.o{background:var(--sheet);color:var(--ink);text-shadow:none}}
+.btn{display:inline-flex;align-items:center;height:54px;padding:0 28px;border-radius:999px;font:700 17px 'Bricolage Grotesque',sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.p{background:var(--sun);color:#10261c}.btn.g{background:rgba(255,255,255,.16);color:#fff;border:2px solid rgba(255,255,255,.75);backdrop-filter:blur(6px)}
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:120px 5vw 70px;position:relative}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,38,30,.55),rgba(7,38,30,0) 62%);pointer-events:none}
+.hero>div{position:relative;max-width:760px}
+h1{font-weight:800;font-size:clamp(46px,8.6vw,118px);line-height:.92;letter-spacing:-.025em;color:#fff;text-transform:uppercase;text-shadow:0 4px 30px rgba(8,35,28,.5)}
+.sub{font-size:clamp(19px,2.2vw,25px);line-height:1.4;color:#fff;margin:26px 0 32px;max-width:24em;text-shadow:0 2px 16px rgba(8,35,28,.6)}
+.acts{display:flex;gap:14px;flex-wrap:wrap}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+.hero h1{animation:rise .8s both}.hero .sub{animation:rise .8s .12s both}.hero .acts{animation:rise .8s .24s both}
+@media(max-width:900px){.hero{align-items:flex-end;padding-bottom:64px}.hero:before{background:linear-gradient(0deg,rgba(7,38,30,.6),rgba(7,38,30,0) 70%)}}
+.win{height:62vh;display:flex;align-items:flex-end;padding:0 5vw 40px;color:#fff;font:700 clamp(20px,2.6vw,32px)/1.25 'Bricolage Grotesque',sans-serif;text-shadow:0 2px 20px rgba(8,35,28,.65)}
+.win p{max-width:18em}
+@media(max-width:700px){.win{height:42vh}}
+.sheet{background:var(--sheet);border-radius:36px 36px 0 0;padding:clamp(60px,9vw,120px) 5vw;position:relative}
+.sheet+.sheet{border-radius:0;padding-top:0}
+.in{max-width:1120px;margin:0 auto}
+h2{font-weight:700;font-size:clamp(34px,5.4vw,68px);line-height:1;letter-spacing:-.025em;max-width:13em}
+.lead{font-size:19px;color:var(--mute);max-width:52ch}
+.two{display:grid;grid-template-columns:1.1fr 1fr;gap:6vw;align-items:start}
+dl>div{display:grid;grid-template-columns:120px 1fr;gap:16px;border-top:1px solid var(--line);padding:16px 0}
+dt{font:700 17px 'Bricolage Grotesque',sans-serif}dd{color:var(--mute)}
+.bento{display:grid;gap:16px;grid-template-columns:repeat(6,1fr);margin-top:44px}
+.t{border-radius:26px;padding:28px;overflow:hidden;background:var(--soft)}
+.t h3{font-size:28px;line-height:1.1;letter-spacing:-.015em;margin-bottom:8px}.t p{color:var(--mute);max-width:36ch}
+.t canvas.m{margin-top:22px;border-radius:14px}
+.t.a{grid-column:span 4;grid-row:span 2}.t.b{grid-column:span 2;background:color-mix(in srgb,var(--sun) 30%,var(--sheet));border-radius:26px 26px 26px 80px}
+.t.c{grid-column:span 2;background:color-mix(in srgb,var(--leaf) 26%,var(--sheet))}
+.t.d{grid-column:span 3;background:color-mix(in srgb,var(--river) 24%,var(--sheet))}.t.e{grid-column:span 3;border-radius:80px 26px 26px 26px}
+.t .ic{image-rendering:pixelated;display:block;margin-bottom:14px}
+canvas.m,#big{width:100%;height:auto;aspect-ratio:160/100;display:block;image-rendering:pixelated}
+.ex{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:5vw;align-items:center;margin-top:44px}
+.tab{display:block;width:100%;text-align:left;background:none;border:0;border-left:4px solid var(--line);padding:10px 0 10px 20px;font-weight:700;font-size:clamp(22px,3vw,34px);letter-spacing:-.02em;color:var(--mute);cursor:pointer}
+.tab[aria-selected=true]{color:var(--ink);border-color:var(--sun)}
+#bn{font:700 26px 'Bricolage Grotesque';margin:28px 0 4px}#bd{color:var(--mute)}
+#big{border-radius:28px;aspect-ratio:320/200;box-shadow:0 24px 50px -20px rgba(8,35,28,.45)}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
+.gal figure:nth-child(1),.gal figure:nth-child(5){grid-column:span 2}
+.gal canvas{border-radius:20px}.gal figcaption{padding:10px 4px 0;color:var(--mute);font-size:15px}
+.log{margin-top:40px}.log>div{display:grid;grid-template-columns:130px 1fr;gap:20px;border-top:1px solid var(--line);padding:22px 0}
+.log time{color:var(--mute);font-weight:700}.log h3{font-size:24px;letter-spacing:-.01em}.log p{color:var(--mute);margin-top:4px}
+.dl{display:flex;align-items:center;gap:20px;border-top:1px solid var(--line);padding:24px 0}
+.dl h3{font-size:28px;flex:1}.dl span{color:var(--mute)}
+.dl .btn{height:48px;background:var(--ink);color:var(--sheet)}.dl .btn[aria-disabled=true]{opacity:.4;pointer-events:none}
+.soc a{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding:18px 0;color:var(--ink);text-decoration:none;font:700 clamp(32px,6vw,72px)/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;transition:color .15s,padding .2s}
+.soc a:hover{color:var(--leaf);padding-left:14px}.soc a small{font:500 16px 'DM Sans';color:var(--mute);letter-spacing:0}
+footer{background:var(--sheet);padding:30px 5vw 60px;color:var(--mute);font-size:15px}
+.sheet.last{padding-bottom:40px}
+@media(max-width:860px){.two,.ex{grid-template-columns:1fr}.bento{grid-template-columns:1fr}.t.a,.t.b,.t.c,.t.d,.t.e{grid-column:auto;grid-row:auto}.gal{grid-template-columns:1fr 1fr}.gal figure:nth-child(n){grid-column:auto}.gal figure:nth-child(1){grid-column:span 2}.log>div{grid-template-columns:1fr;gap:4px}.dl{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<canvas id="w"></canvas><div id="t"></div>
+<header class="nav" id="nav">
+<a class="logo" href="#home"><canvas class="ic" data-i="0" data-s="1"></canvas>Pixel Village</a>
+<button id="mb" aria-label="Menu">Menu</button>
+<ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#features">Features</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#updates">Updates</a></li><li><a class="go" href="#download">Download</a></li></ul>
+</header>
+<main>
+<section class="hero" id="home"><div>
+<h1>Build your own little world</h1>
+<p class="sub">Create, explore and bring your own village to life</p>
+<div class="acts"><a class="btn p" href="#download">Play now</a><a class="btn g" href="#explore">Explore world</a></div>
+</div></section>
 
-<div class="grid-bg"></div>
-<div class="gradient-orb orb-1"></div>
-<div class="gradient-orb orb-2"></div>
+<div class="win"><p>Every house, field and bridge is placed by you.</p></div>
+<section class="sheet" id="about"><div class="in two">
+<h2>A quiet place to build.</h2>
+<div><p class="lead">Pixel Village is a relaxed sandbox. Lay out roads, raise cottages, plant fields and watch villagers fill the streets. There are no timers, so you can build at your own pace.</p>
+<dl style="margin-top:30px"><div><dt>Biomes</dt><dd>Meadow, forest, snow and farmland</dd></div><div><dt>Platforms</dt><dd>Windows and Android</dd></div><div><dt>Pace</dt><dd>No timers, no rush</dd></div></dl></div>
+</div></section>
 
-<div class="lang-switch">
-  <button class="lang-btn active" data-lang="uk">🇺🇦</button>
-  <button class="lang-btn" data-lang="en">🇬🇧</button>
-  <button class="lang-btn" data-lang="ru">🇷🇺</button>
-</div>
+<section class="sheet" id="features"><div class="in">
+<h2>What you can do in your village</h2>
+<div class="bento">
+<div class="t a"><h3>Build anything, tile by tile</h3><p>Homes, roads, bridges and gardens. Rearrange them whenever you like.</p><canvas class="m" data-x="15.5" data-y="9.5"></canvas></div>
+<div class="t b"><canvas class="ic" data-i="3" data-s="4"></canvas><h3>Villagers</h3><p>They walk the roads, cross bridges and make the place feel lived in.</p></div>
+<div class="t c"><canvas class="ic" data-i="1" data-s="4"></canvas><h3>Farm</h3><p>Plant crop rows and stack hay by the farmhouse.</p></div>
+<div class="t d"><canvas class="ic" data-i="4" data-s="3"></canvas><h3>Day and night</h3><p>Warm afternoons give way to calm, moonlit evenings.</p></div>
+<div class="t e"><canvas class="ic" data-i="5" data-s="3"></canvas><h3>Share your world</h3><p>Take screenshots and trade ideas with other builders.</p></div>
+</div></div></section>
 
-<div class="container">
-  <nav>
-    <div class="logo-text">
-      <span>🏡</span>
-      <span>Pixel Village</span>
-    </div>
-    <ul class="nav-links">
-      <li><a href="#download" data-i18n="nav-download">Завантажити</a></li>
-      <li><a href="#features" data-i18n="nav-features">Особливості</a></li>
-      <li><a href="https://discord.gg/atJW5ArM3R" target="_blank" data-i18n="nav-discord">Discord</a></li>
-    </ul>
-  </nav>
+<div class="win"><p>Cross the river and the map changes.</p></div>
+<section class="sheet" id="explore"><div class="in">
+<h2>Four biomes, one map</h2>
+<div class="ex"><div role="tablist">
+<button class="tab" role="tab" aria-selected="true">Meadow village</button>
+<button class="tab" role="tab" aria-selected="false">Whispering forest</button>
+<button class="tab" role="tab" aria-selected="false">Snowy peaks</button>
+<button class="tab" role="tab" aria-selected="false">Golden farmlands</button>
+<p id="bn">Meadow village</p><p id="bd">Rooftops, a market road and neighbours out for a walk.</p></div>
+<canvas id="big"></canvas></div>
+</div></section>
 
-  <section class="hero">
-    <div class="hero-icon">🏡</div>
-    <h1>
-      <span class="gradient-text">Pixel Village</span>
-    </h1>
-    <p class="hero-subtitle" data-i18n="hero-subtitle">
-      Мультиплеєр гра на виживання з піксельною графікою
-    </p>
-    <div class="hero-badges">
-      <span class="badge version">
-        <span>✨</span>
-        <span id="version-badge">v1.3.6</span>
-      </span>
-      <span class="badge players">
-        <span>👥</span>
-        <span data-i18n="badge-multiplayer">Онлайн мультиплеєр</span>
-      </span>
-      <span class="badge">
-        <span>🎮</span>
-        <span data-i18n="badge-free">Безкоштовно</span>
-      </span>
-    </div>
-    <div class="cta-buttons">
-      <a href="#download" class="btn btn-primary">
-        <span>⬇️</span>
-        <span data-i18n="cta-download">Завантажити гру</span>
-      </a>
-      <a href="https://discord.gg/atJW5ArM3R" target="_blank" class="btn btn-secondary">
-        <span>💬</span>
-        <span data-i18n="cta-discord">Приєднатися до Discord</span>
-      </a>
-    </div>
-  </section>
+<section class="sheet" id="gallery"><div class="in">
+<h2>Screenshots</h2>
+<div class="gal">
+<figure><canvas class="m" data-x="15" data-y="9"></canvas><figcaption>Morning in the village</figcaption></figure>
+<figure><canvas class="m" data-x="11.5" data-y="10"></canvas><figcaption>The bridge</figcaption></figure>
+<figure><canvas class="m" data-x="17" data-y="5"></canvas><figcaption>Up in the pines</figcaption></figure>
+<figure><canvas class="m" data-x="5" data-y="16"></canvas><figcaption>Harvest time</figcaption></figure>
+<figure><canvas class="m" data-x="4" data-y="7"></canvas><figcaption>The forest cabin</figcaption></figure>
+<figure><canvas class="m" data-x="18" data-y="12.5"></canvas><figcaption>Evening stroll</figcaption></figure>
+</div></div></section>
 
-  <section id="download" class="downloads fade-in">
-    <div class="section-header">
-      <h2 class="section-title" data-i18n="download-title">Завантажити</h2>
-      <p class="section-subtitle" data-i18n="download-subtitle">
-        Виберіть вашу платформу
-      </p>
-    </div>
+<section class="sheet" id="updates"><div class="in">
+<h2>Latest updates</h2>
+<div class="log">
+<div><time>Nov 2026</time><div><h3>Rivers and bridges</h3><p>Animated water, new bridges and villagers who walk across them.</p></div></div>
+<div><time>Oct 2026</time><div><h3>Farm life</h3><p>Crop fields, hay bales and farmhouses for the countryside.</p></div></div>
+<div><time>Sep 2026</time><div><h3>Hello, village</h3><p>The first tiles, houses and trees.</p></div></div>
+</div></div></section>
 
-    <div class="download-grid">
-      <div class="download-card">
-        <span class="platform-icon">💻</span>
-        <h3>Windows</h3>
-        <div class="platform-meta">
-          <span class="meta-tag">9 MB</span>
-          <span class="meta-tag">Windows 10/11</span>
-          <span class="meta-tag" data-i18n="meta-autoupdate">Автооновлення</span>
-        </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage.exe"
-           class="download-btn btn-windows">
-          <span>⬇️</span>
-          <span data-i18n="btn-download">Завантажити</span>
-        </a>
-      </div>
+<section class="sheet" id="download"><div class="in">
+<h2>Download the game</h2>
+<div style="margin-top:36px">
+<div class="dl"><h3>Windows</h3><span>Desktop build • EXE</span><a class="btn" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage.exe">Download</a></div>
+<div class="dl"><h3>macOS</h3><span>Desktop build • DMG</span><a class="btn" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-macOS.dmg">Download</a></div>
+<div class="dl"><h3>Linux</h3><span>Desktop build • Binary</span><a class="btn" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage">Download</a></div>
+<div class="dl"><h3>Android</h3><span>Mobile build • APK</span><a class="btn" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-android.apk">Download</a></div>
+<div class="dl"><h3>iOS</h3><span>Mobile build • IPA</span><a class="btn" href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-iOS.ipa">Download</a></div>
+</div></div></section>
 
-      <div class="download-card">
-        <span class="platform-icon">🍎</span>
-        <h3>macOS</h3>
-        <div class="platform-meta">
-          <span class="meta-tag">~9 MB</span>
-          <span class="meta-tag">macOS 11+</span>
-          <span class="meta-tag" data-i18n="meta-autoupdate">Автооновлення</span>
-        </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-macOS.dmg"
-           class="download-btn btn-macos">
-          <span>⬇️</span>
-          <span data-i18n="btn-download">Завантажити</span>
-        </a>
-      </div>
-
-      <div class="download-card">
-        <span class="platform-icon">🐧</span>
-        <h3>Linux</h3>
-        <div class="platform-meta">
-          <span class="meta-tag">~8 MB</span>
-          <span class="meta-tag">Ubuntu 22.04+</span>
-          <span class="meta-tag">x86_64</span>
-        </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage"
-           class="download-btn btn-linux">
-          <span>⬇️</span>
-          <span data-i18n="btn-download">Завантажити</span>
-        </a>
-      </div>
-
-      <div class="download-card">
-        <span class="platform-icon">📱</span>
-        <h3>Android</h3>
-        <div class="platform-meta">
-          <span class="meta-tag">15 MB</span>
-          <span class="meta-tag">Android 5.0+</span>
-          <span class="meta-tag">APK</span>
-        </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-android.apk"
-           class="download-btn btn-android">
-          <span>⬇️</span>
-          <span data-i18n="btn-download">Завантажити</span>
-        </a>
-      </div>
-
-      <div class="download-card">
-        <span class="platform-icon">📱</span>
-        <h3>iOS</h3>
-        <div class="platform-meta">
-          <span class="meta-tag">~12 MB</span>
-          <span class="meta-tag">iOS 13+</span>
-          <span class="meta-tag">IPA</span>
-        </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-iOS.ipa"
-           class="download-btn btn-ios">
-          <span>⬇️</span>
-          <span data-i18n="btn-download">Завантажити</span>
-        </a>
-        <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">* Потрібен AltStore або developer account</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="features" class="features fade-in">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title" data-i18n="features-title">Особливості гри</h2>
-        <p class="section-subtitle" data-i18n="features-subtitle">
-          Все, що тобі потрібно для виживання
-        </p>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-card">
-          <span class="feature-icon">🌍</span>
-          <h3 data-i18n="feat1-title">Мультиплеєр</h3>
-          <p data-i18n="feat1-desc">Грай онлайн з друзями у реальному часі. Бач інших гравців та взаємодій з ними.</p>
-        </div>
-
-        <div class="feature-card">
-          <span class="feature-icon">⛏️</span>
-          <h3 data-i18n="feat2-title">Виживання</h3>
-          <p data-i18n="feat2-desc">Добувай ресурси, крафти інструменти та зброю. Стеж за голодом, спрагою та здоров'ям.</p>
-        </div>
-
-        <div class="feature-card">
-          <span class="feature-icon">🐟</span>
-          <h3 data-i18n="feat3-title">Риболовля</h3>
-          <p data-i18n="feat3-desc">Лови різні види риб, прокачуй навички та стань найкращим рибалкою на сервері.</p>
-        </div>
-
-        <div class="feature-card">
-          <span class="feature-icon">💰</span>
-          <h3 data-i18n="feat4-title">Ринок гравців</h3>
-          <p data-i18n="feat4-desc">Торгуй з іншими гравцями. Виставляй товари на продаж та купуй потрібні ресурси.</p>
-        </div>
-
-        <div class="feature-card">
-          <span class="feature-icon">🗺️</span>
-          <h3 data-i18n="feat5-title">Великий світ</h3>
-          <p data-i18n="feat5-desc">Досліджуй карту 80×80 з різними біомами: ліси, луги, річки та озера.</p>
-        </div>
-
-        <div class="feature-card">
-          <span class="feature-icon">🐺</span>
-          <h3 data-i18n="feat6-title">Приручення</h3>
-          <p data-i18n="feat6-desc">Приручи вовка та він стане твоїм вірним компаньйоном у боях.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="community fade-in">
-    <div class="section-header">
-      <h2 class="section-title" data-i18n="community-title">💬 Спільнота</h2>
-      <p class="section-subtitle" data-i18n="community-subtitle">
-        Приєднуйся до нашої спільноти
-      </p>
-    </div>
-
-    <div class="community-grid">
-      <a href="https://discord.gg/atJW5ArM3R" target="_blank" class="community-card discord-card">
-        <div class="community-icon">💬</div>
-        <h3 data-i18n="discord-title">Discord сервер</h3>
-        <p data-i18n="discord-desc">Спілкуйся з гравцями, діли досвід, знаходь друзів для спільної гри</p>
-        <div class="community-btn">
-          <span data-i18n="join-discord">Приєднатися</span>
-          <span>→</span>
-        </div>
-      </a>
-
-      <a href="https://t.me/pixel_village" target="_blank" class="community-card telegram-card">
-        <div class="community-icon">✈️</div>
-        <h3 data-i18n="telegram-title">Telegram канал</h3>
-        <p data-i18n="telegram-desc">Отримуй новини про оновлення, патчноути та анонси нових фіч</p>
-        <div class="community-btn">
-          <span data-i18n="join-telegram">Підписатися</span>
-          <span>→</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-social">
-        <a href="https://discord.gg/atJW5ArM3R" target="_blank" class="social-btn" title="Discord">
-          💬
-        </a>
-        <a href="https://t.me/pixel_village" target="_blank" class="social-btn" title="Telegram">
-          ✈️
-        </a>
-      </div>
-
-      <div class="footer-links">
-        <a href="#download" class="footer-link">
-          <span>⬇️</span>
-          <span data-i18n="footer-download">Завантажити</span>
-        </a>
-        <a href="https://discord.gg/atJW5ArM3R" target="_blank" class="footer-link">
-          <span>💬</span>
-          <span data-i18n="footer-discord">Discord</span>
-        </a>
-        <a href="https://t.me/pixel_village" target="_blank" class="footer-link">
-          <span>✈️</span>
-          <span data-i18n="footer-telegram">Telegram</span>
-        </a>
-      </div>
-
-      <p class="copyright">
-        © 2026 Pixel Village. <span data-i18n="footer-rights">Всі права захищені.</span>
-      </p>
-    </div>
-  </footer>
-</div>
-
+<section class="sheet last" id="community"><div class="in">
+<h2>Join the community</h2>
+<div class="soc" style="margin-top:36px">
+<a href="https://discord.gg/pixelvillage">Discord<small>Chat and share</small></a><a href="https://t.me/pixelvillage">Telegram<small>News and updates</small></a>
+</div></div></section>
+</main>
+<footer>© 2026 Pixel Village</footer>
 <script>
-// Translations
-const translations = {
-  uk: {
-    'nav-download': 'Завантажити',
-    'nav-features': 'Особливості',
-    'nav-discord': 'Discord',
-    'hero-subtitle': 'Мультиплеєр гра на виживання з піксельною графікою',
-    'badge-multiplayer': 'Онлайн мультиплеєр',
-    'badge-free': 'Безкоштовно',
-    'cta-download': 'Завантажити гру',
-    'cta-discord': 'Приєднатися до Discord',
-    'download-title': 'Завантажити',
-    'download-subtitle': 'Виберіть вашу платформу',
-    'meta-autoupdate': 'Автооновлення',
-    'btn-download': 'Завантажити',
-    'features-title': 'Особливості гри',
-    'features-subtitle': 'Все, що тобі потрібно для виживання',
-    'feat1-title': 'Мультиплеєр',
-    'feat1-desc': 'Грай онлайн з друзями у реальному часі. Бач інших гравців та взаємодій з ними.',
-    'feat2-title': 'Виживання',
-    'feat2-desc': 'Добувай ресурси, крафти інструменти та зброю. Стеж за голодом, спрагою та здоров\'ям.',
-    'feat3-title': 'Риболовля',
-    'feat3-desc': 'Лови різні види риб, прокачуй навички та стань найкращим рибалкою на сервері.',
-    'feat4-title': 'Ринок гравців',
-    'feat4-desc': 'Торгуй з іншими гравцями. Виставляй товари на продаж та купуй потрібні ресурси.',
-    'feat5-title': 'Великий світ',
-    'feat5-desc': 'Досліджуй карту 80×80 з різними біомами: ліси, луги, річки та озера.',
-    'feat6-title': 'Приручення',
-    'feat6-desc': 'Приручи вовка та він стане твоїм вірним компаньйоном у боях.',
-    'community-title': '💬 Спільнота',
-    'community-subtitle': 'Приєднуйся до нашої спільноти',
-    'discord-title': 'Discord сервер',
-    'discord-desc': 'Спілкуйся з гравцями, діли досвід, знаходь друзів для спільної гри',
-    'join-discord': 'Приєднатися',
-    'telegram-title': 'Telegram канал',
-    'telegram-desc': 'Отримуй новини про оновлення, патчноути та анонси нових фіч',
-    'join-telegram': 'Підписатися',
-    'footer-download': 'Завантажити',
-    'footer-discord': 'Discord',
-    'footer-telegram': 'Telegram',
-    'footer-rights': 'Всі права захищені.'
-  },
-  en: {
-    'nav-download': 'Download',
-    'nav-features': 'Features',
-    'nav-discord': 'Discord',
-    'hero-subtitle': 'Multiplayer survival game with pixel graphics',
-    'badge-multiplayer': 'Online Multiplayer',
-    'badge-free': 'Free',
-    'cta-download': 'Download Game',
-    'cta-discord': 'Join Discord',
-    'download-title': 'Download',
-    'download-subtitle': 'Choose your platform',
-    'meta-autoupdate': 'Auto-update',
-    'btn-download': 'Download',
-    'features-title': 'Game Features',
-    'features-subtitle': 'Everything you need to survive',
-    'feat1-title': 'Multiplayer',
-    'feat1-desc': 'Play online with friends in real-time. See other players and interact with them.',
-    'feat2-title': 'Survival',
-    'feat2-desc': 'Gather resources, craft tools and weapons. Monitor hunger, thirst and health.',
-    'feat3-title': 'Fishing',
-    'feat3-desc': 'Catch different types of fish, level up skills and become the best fisherman on the server.',
-    'feat4-title': 'Player Market',
-    'feat4-desc': 'Trade with other players. List items for sale and buy needed resources.',
-    'feat5-title': 'Large World',
-    'feat5-desc': 'Explore an 80×80 map with different biomes: forests, meadows, rivers and lakes.',
-    'feat6-title': 'Taming',
-    'feat6-desc': 'Tame a wolf and it will become your loyal companion in battles.',
-    'community-title': '💬 Community',
-    'community-subtitle': 'Join our community',
-    'discord-title': 'Discord Server',
-    'discord-desc': 'Chat with players, share experiences, find friends to play together',
-    'join-discord': 'Join',
-    'telegram-title': 'Telegram Channel',
-    'telegram-desc': 'Get news about updates, patch notes and new features announcements',
-    'join-telegram': 'Subscribe',
-    'footer-download': 'Download',
-    'footer-discord': 'Discord',
-    'footer-telegram': 'Telegram',
-    'footer-rights': 'All rights reserved.'
-  },
-  ru: {
-    'nav-download': 'Скачать',
-    'nav-features': 'Особенности',
-    'nav-discord': 'Discord',
-    'hero-subtitle': 'Мультиплеер игра на выживание с пиксельной графикой',
-    'badge-multiplayer': 'Онлайн мультиплеер',
-    'badge-free': 'Бесплатно',
-    'cta-download': 'Скачать игру',
-    'cta-discord': 'Присоединиться к Discord',
-    'download-title': 'Скачать',
-    'download-subtitle': 'Выберите вашу платформу',
-    'meta-autoupdate': 'Автообновление',
-    'btn-download': 'Скачать',
-    'features-title': 'Особенности игры',
-    'features-subtitle': 'Все, что нужно для выживания',
-    'feat1-title': 'Мультиплеер',
-    'feat1-desc': 'Играй онлайн с друзьями в реальном времени. Видь других игроков и взаимодействуй с ними.',
-    'feat2-title': 'Выживание',
-    'feat2-desc': 'Добывай ресурсы, создавай инструменты и оружие. Следи за голодом, жаждой и здоровьем.',
-    'feat3-title': 'Рыбалка',
-    'feat3-desc': 'Лови разные виды рыб, прокачивай навыки и стань лучшим рыбаком на сервере.',
-    'feat4-title': 'Рынок игроков',
-    'feat4-desc': 'Торгуй с другими игроками. Выставляй товары на продажу и покупай нужные ресурсы.',
-    'feat5-title': 'Большой мир',
-    'feat5-desc': 'Исследуй карту 80×80 с разными биомами: леса, луга, реки и озера.',
-    'feat6-title': 'Приручение',
-    'feat6-desc': 'Приручи волка и он станет твоим верным компаньоном в боях.',
-    'community-title': '💬 Сообщество',
-    'community-subtitle': 'Присоединяйся к нашему сообществу',
-    'discord-title': 'Discord сервер',
-    'discord-desc': 'Общайся с игроками, делись опытом, находи друзей для совместной игры',
-    'join-discord': 'Присоединиться',
-    'telegram-title': 'Telegram канал',
-    'telegram-desc': 'Получай новости об обновлениях, патчноуты и анонсы новых фич',
-    'join-telegram': 'Подписаться',
-    'footer-download': 'Скачать',
-    'footer-discord': 'Discord',
-    'footer-telegram': 'Telegram',
-    'footer-rights': 'Все права защищены.'
-  }
-};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const C=$('#w'),X0=C.getContext('2d');
+let X=X0,W=1,H=1,S=3,cam={x:14.5,y:9.5},tgt={x:14.5,y:9.5},OX=0,OY=0,LV=false,T=0,mx=-9e3,my=-9e3;
+const N=22,RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const hs=(x,y,s=0)=>{const n=Math.sin(x*127.1+y*311.7+s*74.7)*43758.5453;return n-Math.floor(n)};
+/* ---------- pixel sprite engine (no anti-aliasing) ---------- */
+const sh=(c,k)=>'#'+[1,3,5].map(i=>Math.max(0,Math.min(255,parseInt(c.substr(i,2),16)+k)).toString(16).padStart(2,'0')).join('');
+const R=(q,c,x,y,w,h)=>{q.fillStyle=c;q.fillRect(x,y,w,h)};
+const D=(q,c,cx,cy,r)=>{q.fillStyle=c;for(let j=-r;j<=r;j++){const k=Math.round(Math.sqrt(r*r+r*.7-j*j));q.fillRect(cx-k,cy+j,2*k+1,1)}};
+const G=(q,c,p)=>{q.fillStyle=c;const ys=p.filter((_,i)=>i%2),y0=Math.floor(Math.min(...ys)),y1=Math.ceil(Math.max(...ys));
+for(let y=y0;y<y1;y++){const xs=[],m=y+.5;for(let i=0;i<p.length;i+=2){const ax=p[i],ay=p[i+1],bx=p[(i+2)%p.length],by=p[(i+3)%p.length];if((ay<=m&&by>m)||(by<=m&&ay>m))xs.push(ax+(m-ay)/(by-ay)*(bx-ax))}
+xs.sort((a,b)=>a-b);for(let i=0;i+1<xs.length;i+=2){const a=Math.round(xs[i]);q.fillRect(a,y,Math.round(xs[i+1])-a,1)}}};
+function outline(q,w,h){const d=q.getImageData(0,0,w,h),a=d.data,o=new Uint8ClampedArray(a),al=(x,y)=>x<0||y<0||x>=w||y>=h?0:a[(y*w+x)*4+3];
+for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(!al(x,y)&&(al(x-1,y)||al(x+1,y)||al(x,y-1)||al(x,y+1))){const i=(y*w+x)*4;o[i]=31;o[i+1]=26;o[i+2]=46;o[i+3]=255}
+d.data.set(o);q.putImageData(d,0,0)}
+function mk(w,h,fn,ol=1){const c=document.createElement('canvas');c.width=w;c.height=h;const q=c.getContext('2d');q.translate(1,1);fn(q);q.setTransform(1,0,0,1,0,0);if(ol)outline(q,w,h);return c}
+const inD=(x,y,m)=>Math.abs(x+.5-16)/16+Math.abs(y+.5-8)/8<m;
+function ground(base,seed,extra){return mk(34,18,q=>{G(q,base,[16,0,32,8,16,16,0,8]);
+for(let y=0;y<8;y++){R(q,sh(base,16),15-2*y,y,2,1);R(q,sh(base,-8),15+2*y,y,2,1);R(q,sh(base,-16),2*y+1,y+8,2,1);R(q,sh(base,-26),46-2*y-16,y+8,2,1)}
+for(let k=0;k<16;k++){const x=hs(k,seed)*28+2|0,y=hs(k,seed,2)*12+2|0;if(inD(x,y,.8)){R(q,sh(base,-18),x,y,1,2);R(q,sh(base,16),x+1,y,1,1)}}
+if(extra)extra(q)},0)}
+function waterS(f){return mk(34,18,q=>{G(q,'#3f9fe0',[16,0,32,8,16,16,0,8]);for(let y=0;y<16;y++)for(let x=0;x<32;x++)if(inD(x,y,.92)){const w=((x>>1)+y*3+f*4)%14;if(w==0)R(q,'#9bdcff',x,y,2,1);else if(w==7&&y%2)R(q,'#2c85c8',x,y,2,1)}
+for(let y=0;y<8;y++){R(q,'#6cc0f2',15-2*y,y,2,1);R(q,'#2c85c8',46-2*y-16,y+8,2,1)}},0)}
+const plotX=q=>{for(const m of[-1,0,1])for(let t=-4;t<=4;t++){const x=16+t*3-m*6|0,y=8+t*1.5+m*3|0;if(inD(x,y,.7)){R(q,'#4fae44',x,y-1,1,3);R(q,'#7fd45c',x-1,y,3,1)}}};
+const zc={meadow:['#8ed16b','#86c964','#96d874'],forest:['#6dbd5c','#65b556','#76c866'],snow:['#f6fafd','#eaf2f8','#e0ebf4'],farm:['#92d06a','#8ac864','#9ad672']};
+const GR={};for(const z in zc)GR[z]=zc[z].map((c,i)=>ground(c,i+1));
+const SND=['#f0dca4','#e8d198'].map((c,i)=>ground(c,i+7)),RD=['#dcc08e','#d2b682'].map((c,i)=>ground(c,i+9)),PLT=['#a2724a','#966a44'].map((c,i)=>ground(c,i+3,plotX));
+const WS=[0,1,2,3].map(waterS);
+const SL=hh=>mk(18,10+hh,q=>G(q,'#8d6b46',[0,0,16,8,16,8+hh,0,hh]),0),SR=hh=>mk(18,10+hh,q=>G(q,'#74552f',[0,8,16,0,16,hh,0,8+hh]),0);
+const SL4=SL(4),SR4=SR(4),SL20=SL(20),SR20=SR(20);
+const BR=mk(36,30,q=>{G(q,'#8a5a34',[1,11,17,19,17,23,1,15]);G(q,'#6e4627',[17,19,33,11,33,15,17,23]);G(q,'#c48a52',[17,3,33,11,17,19,1,11]);
+for(let y=3;y<19;y++)for(let x=1;x<33;x++)if(inD(x-1,y-3,.9)&&(((x>>1)+y)>>1)%2)R(q,'#b27643',x,y,1,1)});
+const RF=[['#e5604f','#b94536'],['#4f9bd6','#386fa3'],['#e8aa3a','#bd822c']];
+const HSP=RF.map(p=>mk(42,40,q=>{const cx=20,by=30,yr=by-12;
+G(q,'#f5ead0',[cx-13,by,cx,by+6,cx,by-6,cx-13,by-12]);G(q,'#d9c8a0',[cx,by+6,cx+13,by,cx+13,by-12,cx,by-6]);
+R(q,'#e8d8b0',cx-13,by-1,13,1);
+G(q,'#7a4b2a',[cx+4,by+4,cx+7,by+3,cx+7,by-4,cx+4,by-3]);
+G(q,'#9fd8f0',[cx-9,by-7,cx-5,by-5,cx-5,by-1,cx-9,by-3]);R(q,'#fff',cx-8,by-6,1,2);
+R(q,'#8b5a3c',cx+6,yr-13,4,7);R(q,'#a9724c',cx+6,yr-13,4,2);
+G(q,p[0],[cx-16,yr,cx,yr+8,cx,yr-15,cx+1,yr-15]);G(q,p[1],[cx,yr+8,cx+16,yr,cx+1,yr-15,cx,yr-15]);
+R(q,sh(p[0],28),cx-12,yr-2,1,2);R(q,sh(p[0],28),cx-6,yr-6,1,2)}));
+const TG=[['#2f8a3d','#42a44a','#6cc864'],['#27743a','#37903f','#56ab55'],['#3a9a46','#52b653','#7ed572']];
+const TRE=TG.map(g=>mk(28,36,q=>{R(q,'#6b4426',11,22,4,11);R(q,'#8a5a34',11,22,2,11);D(q,g[0],7,17,7);D(q,g[0],19,16,7);D(q,g[0],13,12,10);D(q,g[1],11,13,8);D(q,g[2],9,9,4);D(q,g[1],18,17,3)}));
+const PIN=mk(26,40,q=>{R(q,'#6b4426',10,31,4,7);for(let i=2;i>=0;i--){const ay=2+i*9,by=ay+15,w=8+i*3;G(q,'#2c6b57',[12,ay,12+w,by,12-w,by]);G(q,'#3d8a6c',[12,ay,12,by,12-w,by]);G(q,'#f4f9fc',[12,ay,12+w*.45,ay+6.5,12-w*.45,ay+6.5])}});
+const HAY=mk(16,13,q=>{R(q,'#e3bb55',1,3,12,8);R(q,'#f3d982',1,3,12,3);R(q,'#b8913a',1,7,12,1);R(q,'#b8913a',1,10,12,1);R(q,'#e3bb55',0,5,1,4);R(q,'#e3bb55',13,5,1,4)});
+const BSH=mk(20,14,q=>{D(q,'#2f8a3d',5,8,4);D(q,'#2f8a3d',13,8,4);D(q,'#42a44a',9,6,5);D(q,'#7ed572',7,4,2);R(q,'#ff7aa8',12,5,1,1)});
+const walkS=(c,h,f)=>mk(12,17,q=>{const sk='#f1c58f';R(q,h,3,0,4,2);R(q,sk,3,2,4,3);R(q,c,2,5,6,5);R(q,sh(c,-35),2,9,6,1);R(q,sk,1,6,1,3);R(q,sk,8,6,1,3);
+R(q,'#2f3350',3,10,2,f?3:2);R(q,'#2f3350',5,10,2,f?2:3)});
+const CLD=[mk(50,22,q=>{D(q,'#fff',10,12,6);D(q,'#fff',22,9,8);D(q,'#fff',34,12,7);R(q,'#fff',10,12,28,6);R(q,'#d3e8f6',6,17,36,2)},0),mk(36,16,q=>{D(q,'#fff',9,8,5);D(q,'#fff',19,6,6);R(q,'#fff',9,8,16,5);R(q,'#d3e8f6',5,12,24,2)},0)];
+const ICN=[HSP[0],HAY,TRE[0],walkS('#e4572e','#3b2a20',0),mk(20,20,q=>{D(q,'#ffd84a',9,9,5);D(q,'#fff2a6',8,7,2);R(q,'#ffd84a',8,0,3,2);R(q,'#ffd84a',8,16,3,2);R(q,'#ffd84a',0,8,2,3);R(q,'#ffd84a',16,8,2,3);R(q,'#ffd84a',2,2,2,2);R(q,'#ffd84a',14,2,2,2);R(q,'#ffd84a',2,14,2,2);R(q,'#ffd84a',14,14,2,2)}),
+mk(20,18,q=>{D(q,'#e8505b',5,5,3);D(q,'#e8505b',12,5,3);G(q,'#e8505b',[1,6,16,6,8.5,15]);R(q,'#ff9aa2',3,3,2,1)})];
+/* ---------- world ---------- */
+const wat=(x,y)=>Math.abs(x-(y*.5+7))<1.2,brg=(x,y)=>y==10&&wat(x,y);
+const road=(x,y)=>y==10||(x==16&&y>=7&&y<=14)||(x==7&&y>=10&&y<=20);
+const plot=(x,y)=>x>=4&&x<=9&&y>=15&&y<=19&&x!=7;
+const sand=(x,y)=>wat(x+1,y)||wat(x-1,y)||wat(x,y+1)||wat(x,y-1);
+const zone=(x,y)=>x>=15&&y<=6?'snow':x<=8&&y<=9?'forest':x<=10&&y>=13?'farm':'meadow';
+const pick=(a,x,y,s)=>a[hs(x,y,s)*a.length|0];
+const gsp=(x,y)=>road(x,y)?pick(RD,x,y,9):plot(x,y)?PLT[(x+y)%2]:(sand(x,y)&&zone(x,y)!='snow')?pick(SND,x,y,2):pick(GR[zone(x,y)],x,y,1);
+const OM=Array.from({length:N*N},()=>[]),blk=new Uint8Array(N*N);
+const add=(x,y,o,b=1)=>{o.x=x;o.y=y;o.hv=0;OM[y*N+x].push(o);if(b)blk[y*N+x]=1};
+[[14,8,0],[17,8,1],[19,12,2],[15,12,1],[18,14,0],[18,4,1],[2,15,2],[5,6,0]].forEach(([x,y,k])=>add(x,y,{t:'h',k}));
+[[3,18],[10,17]].forEach(([x,y])=>add(x,y,{t:'y'}));
+for(let y=0;y<N;y++)for(let x=0;x<N;x++){if(blk[y*N+x]||wat(x,y)||road(x,y)||plot(x,y)||sand(x,y))continue;
+const z=zone(x,y),r=hs(x,y,3),p={forest:.42,snow:.2,meadow:.07,farm:.03}[z];
+if(r<p)add(x,y,z=='snow'?{t:'p'}:{t:'t',k:z=='forest'?1+(hs(x,y,6)<.5|0):0});
+else if(z=='meadow'&&r<p+.07)add(x,y,{t:'b'});
+else if(z=='meadow'&&r<p+.2)add(x,y,{t:'f',c:['#ff7aa8','#ffd84a','#ffffff','#b58cff'][hs(x,y,4)*4|0]},0)}
+const ok=(x,y)=>x>=0&&y>=0&&x<N&&y<N&&!blk[y*N+x]&&(!wat(x,y)||y==10);
+const SC=['#e4572e','#2e86c1','#f4b942','#8e5ea2','#e56b9b','#3a9d6a','#f3f3f3'],HC=['#3b2a20','#8a5a2b','#d9a441','#2a2a35'];
+const WK=[];[[16,9],[15,10],[7,12],[16,13],[6,14],[17,5],[9,10],[18,10],[16,7]].forEach(([x,y],i)=>{if(ok(x,y)){const c=SC[i%7],h=HC[i%4];WK.push({x,y,tx:x,ty:y,f:1,dx:1,dy:0,s:i*2,sp:[walkS(c,h,0),walkS(c,h,1)]})}});
+function step(w,dt){w.f+=dt*.9;if(w.f<1)return;w.x=w.tx;w.y=w.ty;w.f=0;
+const D4=[[1,0],[-1,0],[0,1],[0,-1]].filter(([a,b])=>ok(w.x+a,w.y+b));if(!D4.length)return;
+const k=D4.find(d=>d[0]==w.dx&&d[1]==w.dy),nb=D4.filter(d=>!(d[0]==-w.dx&&d[1]==-w.dy)),pl=nb.length?nb:D4;
+const c=k&&Math.random()<.7?k:pl[Math.random()*pl.length|0];w.dx=c[0];w.dy=c[1];w.tx=w.x+c[0];w.ty=w.y+c[1]}
+/* ---------- drawing ---------- */
+const P=(x,y)=>[Math.round((x-y-cam.x+cam.y)*16+W/2+OX),Math.round((x+y-cam.x-cam.y)*8+H/2+OY)];
+const shadow=(cx,cy,rx)=>{X.fillStyle='rgba(30,40,70,.2)';X.fillRect(cx-rx,cy-1,2*rx,3);X.fillRect(cx-rx+2,cy-2,2*rx-4,1);X.fillRect(cx-rx+2,cy+2,2*rx-4,1)};
+function tile(x,y,cx,cy){const tx=cx-17,ty=cy-9;
+if(wat(x,y)){X.drawImage(WS[(T*3|0)%4],tx,ty+4);if(brg(x,y))X.drawImage(BR,cx-18,cy-14);return}
+const lf=y+1>=N?20:wat(x,y+1)&&!brg(x,y+1)?4:0,rf=x+1>=N?20:wat(x+1,y)&&!brg(x+1,y)?4:0;
+if(lf)X.drawImage(lf>5?SL20:SL4,tx,ty+9);if(rf)X.drawImage(rf>5?SR20:SR4,tx+17,ty+9);
+X.drawImage(gsp(x,y),tx,ty)}
+const OBJ={
+h:(o,cx,cy,yo)=>{shadow(cx,cy,14);X.drawImage(HSP[o.k],cx-21,cy-31+yo);
+for(let i=0;i<3;i++){const ph=(T*.45+i/3)%1;X.fillStyle='rgba(255,255,255,'+(.8*(1-ph)).toFixed(2)+')';const s=2+(ph*3|0);X.fillRect(cx+9+Math.round(Math.sin(ph*6+i)*2),cy-26+yo-Math.round(ph*16),s,s)}},
+t:(o,cx,cy,yo)=>{shadow(cx,cy,8);X.drawImage(TRE[o.k],cx-14,cy-33+yo)},
+p:(o,cx,cy,yo)=>{shadow(cx,cy,7);X.drawImage(PIN,cx-13,cy-37+yo)},
+y:(o,cx,cy,yo)=>{shadow(cx,cy,8);X.drawImage(HAY,cx-8,cy-11+yo)},
+b:(o,cx,cy,yo)=>{shadow(cx,cy,8);X.drawImage(BSH,cx-10,cy-12+yo)},
+f:(o,cx,cy)=>{X.fillStyle='#4a9a46';X.fillRect(cx-5,cy,1,1);X.fillRect(cx+3,cy+1,1,1);X.fillStyle=o.c;X.fillRect(cx-5,cy-1,1,1);X.fillRect(cx+3,cy,1,1);X.fillRect(cx,cy+2,1,1)}};
+function walk(w){const x=w.x+(w.tx-w.x)*w.f,y=w.y+(w.ty-w.y)*w.f,[cx,cy]=P(x,y),mv=w.f>0&&w.f<1,fr=mv&&Math.sin(T*9+w.s)>0|0,b=mv&&fr?1:0;
+shadow(cx,cy,4);X.drawImage(w.sp[fr?1:0],cx-6,cy-16-b)}
+const CL=[[10,.07,3,0],[90,.2,2,1],[170,.12,4,0],[40,.33,2.5,1]];
+function draw(){const bands=['#5db8ee','#74c6f2','#8dd2f5','#a8ddf7','#c3e8f9','#dcf2fb'],bh=Math.ceil(H/6);
+bands.forEach((c,i)=>{X.fillStyle=c;X.fillRect(0,i*bh,W,bh)});
+for(const c of CL)X.drawImage(CLD[c[3]],Math.round(((c[0]+T*c[2])%(W+90))-45+OX*.4),Math.round(c[1]*H));
+let hx=-99,hy=-99;if(LV){const u=(mx/S-W/2-OX)/16,v=(my/S-H/2-OY+8)/8;hx=(u+v)/2+cam.x;hy=(v-u)/2+cam.y}
+const wb=Array.from({length:2*N+1},()=>[]);
+for(const w of WK){const d=Math.round(w.x+(w.tx-w.x)*w.f)+Math.round(w.y+(w.ty-w.y)*w.f);wb[Math.max(0,Math.min(2*N,d))].push(w)}
+for(let d=0;d<2*N-1;d++){for(let x=Math.max(0,d-N+1);x<=Math.min(d,N-1);x++){const y=d-x,[cx,cy]=P(x,y);
+if(cx<-34||cx>W+34||cy<-50||cy>H+50)continue;tile(x,y,cx,cy);
+for(const o of OM[y*N+x]){if(LV)o.hv+=((Math.hypot(o.x-hx,o.y-hy)<1.1?4:0)-o.hv)*.25;OBJ[o.t](o,cx,cy,-Math.round(o.hv))}}
+for(const w of wb[d])walk(w)}}
+function render(ctx,w,h,fx,fy,ox,oy,lv){const s=[X,W,H,cam,OX,OY,LV];X=ctx;W=w;H=h;cam={x:fx,y:fy};OX=ox;OY=oy;LV=lv;draw();[X,W,H,cam,OX,OY,LV]=s}
+/* ---------- camera & input ---------- */
+const WP=[[14.5,9.5],[8,5.5],[5.5,16],[17,4.5],[12.5,13],[16,10]],cur={x:0,y:0,px:0,py:0};
+function onScroll(){const m=document.documentElement.scrollHeight-innerHeight,p=m>0?Math.min(1,scrollY/m):0,f=p*(WP.length-1),i=Math.min(WP.length-2,f|0),k=f-i,e=k*k*(3-2*k);
+tgt.x=WP[i][0]+(WP[i+1][0]-WP[i][0])*e;tgt.y=WP[i][1]+(WP[i+1][1]-WP[i][1])*e}
+function resize(){S=innerWidth<700?2:3;W=C.width=Math.ceil(innerWidth/S);H=C.height=Math.ceil(innerHeight/S);onScroll()}
+addEventListener('resize',resize);addEventListener('scroll',onScroll,{passive:true});
+addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY});addEventListener('pointerdown',e=>{mx=e.clientX;my=e.clientY});
+let last=0;
+function loop(ts){requestAnimationFrame(loop);if(ts-last<33)return;const dt=RM?0:Math.min(.1,(ts-last)/1000);last=ts;T=ts/1000;
+const k=1-Math.min(1,scrollY/(innerHeight*.7)),wide=innerWidth>900,L=RM?1:.08;
+const bx=wide?W*.2*k:0,by=wide?0:-H*.16*k,px=(mx/innerWidth-.5)*-10,py=(my/innerHeight-.5)*-5;
+cur.x+=(bx-cur.x)*L;cur.y+=(by-cur.y)*L;cur.px+=((mx>-1e3?px:0)-cur.px)*.08;cur.py+=((mx>-1e3?py:0)-cur.py)*.08;
+cam.x+=(tgt.x-cam.x)*(RM?1:.07);cam.y+=(tgt.y-cam.y)*(RM?1:.07);
+for(const w of WK)step(w,dt);
+render(X0,W,H,cam.x,cam.y,Math.round(cur.x+(RM?0:cur.px)),Math.round(cur.y+(RM?0:cur.py)),true)}
+const MN=$$('canvas.m').map(c=>{c.width=160;c.height=100;c.v=0;new IntersectionObserver(e=>c.v=e[0].isIntersecting).observe(c);return[c,+c.dataset.x,+c.dataset.y]});
+setInterval(()=>{for(const[c,x,y]of MN)if(c.v)render(c.getContext('2d'),160,100,x,y,0,0,false)},220);
 
-// Language switching
-function detectLang() {
-  const saved = localStorage.getItem('pv-lang');
-  if (saved && translations[saved]) return saved;
-  const nav = navigator.language.toLowerCase();
-  if (nav.startsWith('uk')) return 'uk';
-  if (nav.startsWith('ru')) return 'ru';
-  return 'en';
-}
-
-function setLang(lang) {
-  if (!translations[lang]) lang = 'uk';
-
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (translations[lang][key]) {
-      el.textContent = translations[lang][key];
-    }
-  });
-
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
-
-  localStorage.setItem('pv-lang', lang);
-  window.currentLang = lang;
-}
-
-let currentLang = detectLang();
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => setLang(btn.dataset.lang));
-});
-setLang(currentLang);
-
-// Fetch latest version from GitHub
-fetch('https://api.github.com/repos/gertyn230/game-releases/releases/latest')
-  .then(r => r.json())
-  .then(data => {
-    const version = data.tag_name;
-    const versionEl = document.getElementById('version-badge');
-    if (versionEl && version) {
-      versionEl.textContent = version;
-    }
-
-    // Update download links
-    const links = {
-      'PixelVillage.exe': document.querySelector('.btn-windows'),
-      'PixelVillage-macOS.dmg': document.querySelector('.btn-macos'),
-      'PixelVillage': document.querySelector('.btn-linux'),
-      'PixelVillage-android.apk': document.querySelector('.btn-android'),
-      'PixelVillage-iOS.ipa': document.querySelector('.btn-ios')
-    };
-
-    data.assets.forEach(asset => {
-      if (links[asset.name]) {
-        links[asset.name].href = asset.browser_download_url;
-      }
-    });
-  })
-  .catch(err => console.log('Version check failed:', err));
-
-
-// Scroll animations
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, observerOptions);
-
-document.querySelectorAll('.fade-in').forEach(el => {
-  observer.observe(el);
-});
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
+$$('.ic').forEach(c=>{const s=ICN[+c.dataset.i];c.width=s.width;c.height=s.height;c.getContext('2d').drawImage(s,0,0);c.style.width=s.width*(+c.dataset.s||1)+'px'});
+const BIG=$('#big'),bq=BIG.getContext('2d');BIG.width=320;BIG.height=200;let bt=[16,9.5],cb=[16,9.5],bv=1;
+new IntersectionObserver(e=>bv=e[0].isIntersecting).observe(BIG);
+setInterval(()=>{if(!bv)return;cb[0]+=(bt[0]-cb[0])*.3;cb[1]+=(bt[1]-cb[1])*.3;render(bq,320,200,cb[0],cb[1],0,0,false)},80);
+const BI=[['Meadow village','Rooftops, a market road and neighbours out for a walk.',16,9.5],['Whispering forest','Dense trees, a quiet cabin and the upper bend of the river.',5,5],['Snowy peaks','Frosted pines and a house with a warm chimney.',18,3.5],['Golden farmlands','Crop rows, hay bales and a farmhouse by the path.',6.5,17]];
+$$('.tab').forEach((b,i)=>b.onclick=()=>{$$('.tab').forEach(t=>t.setAttribute('aria-selected',t==b));bt=[BI[i][2],BI[i][3]];$('#bn').textContent=BI[i][0];$('#bd').textContent=BI[i][1]});
+const nav=$('#nav');const ns=()=>nav.classList.toggle('s',scrollY>40);addEventListener('scroll',ns,{passive:true});ns();
+$('#mb').onclick=()=>nav.classList.toggle('o');$$('.nav li a').forEach(a=>a.onclick=()=>nav.classList.remove('o'));
+resize();requestAnimationFrame(loop);
 </script>
 </body>
 </html>
