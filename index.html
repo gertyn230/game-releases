@@ -413,6 +413,26 @@ h1 {
   transform: scale(1.02);
 }
 
+.btn-macos {
+  background: linear-gradient(135deg, #000000, #434343);
+  color: white;
+}
+
+.btn-macos:hover {
+  background: linear-gradient(135deg, #1a1a1a, #5a5a5a);
+  transform: scale(1.02);
+}
+
+.btn-ios {
+  background: linear-gradient(135deg, #007AFF, #0051D5);
+  color: white;
+}
+
+.btn-ios:hover {
+  background: linear-gradient(135deg, #0062CC, #003DA8);
+  transform: scale(1.02);
+}
+
 /* Features */
 .features {
   padding: 80px 0;
@@ -771,8 +791,23 @@ footer {
           <span class="meta-tag">Windows 10/11</span>
           <span class="meta-tag" data-i18n="meta-autoupdate">Автооновлення</span>
         </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/download/v1.3.6/PixelVillage.exe"
+        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage.exe"
            class="download-btn btn-windows">
+          <span>⬇️</span>
+          <span data-i18n="btn-download">Завантажити</span>
+        </a>
+      </div>
+
+      <div class="download-card">
+        <span class="platform-icon">🍎</span>
+        <h3>macOS</h3>
+        <div class="platform-meta">
+          <span class="meta-tag">~9 MB</span>
+          <span class="meta-tag">macOS 11+</span>
+          <span class="meta-tag" data-i18n="meta-autoupdate">Автооновлення</span>
+        </div>
+        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-macOS.dmg"
+           class="download-btn btn-macos">
           <span>⬇️</span>
           <span data-i18n="btn-download">Завантажити</span>
         </a>
@@ -786,7 +821,7 @@ footer {
           <span class="meta-tag">Ubuntu 22.04+</span>
           <span class="meta-tag">x86_64</span>
         </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/download/v1.3.6/PixelVillage"
+        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage"
            class="download-btn btn-linux">
           <span>⬇️</span>
           <span data-i18n="btn-download">Завантажити</span>
@@ -801,11 +836,27 @@ footer {
           <span class="meta-tag">Android 5.0+</span>
           <span class="meta-tag">APK</span>
         </div>
-        <a href="https://github.com/gertyn230/game-releases/releases/download/v1.3.6/PixelVillage-android.apk"
+        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-android.apk"
            class="download-btn btn-android">
           <span>⬇️</span>
           <span data-i18n="btn-download">Завантажити</span>
         </a>
+      </div>
+
+      <div class="download-card">
+        <span class="platform-icon">📱</span>
+        <h3>iOS</h3>
+        <div class="platform-meta">
+          <span class="meta-tag">~12 MB</span>
+          <span class="meta-tag">iOS 13+</span>
+          <span class="meta-tag">IPA</span>
+        </div>
+        <a href="https://github.com/gertyn230/game-releases/releases/latest/download/PixelVillage-iOS.ipa"
+           class="download-btn btn-ios">
+          <span>⬇️</span>
+          <span data-i18n="btn-download">Завантажити</span>
+        </a>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">* Потрібен AltStore або developer account</p>
       </div>
     </div>
   </section>
@@ -1095,8 +1146,10 @@ fetch('https://api.github.com/repos/gertyn230/game-releases/releases/latest')
     // Update download links
     const links = {
       'PixelVillage.exe': document.querySelector('.btn-windows'),
+      'PixelVillage-macOS.dmg': document.querySelector('.btn-macos'),
       'PixelVillage': document.querySelector('.btn-linux'),
-      'PixelVillage-android.apk': document.querySelector('.btn-android')
+      'PixelVillage-android.apk': document.querySelector('.btn-android'),
+      'PixelVillage-iOS.ipa': document.querySelector('.btn-ios')
     };
 
     data.assets.forEach(asset => {
