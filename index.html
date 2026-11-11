@@ -26,7 +26,14 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--sun);outline-offset
 .nav li a:hover{background:rgba(255,255,255,.2)}.nav.s li a:hover{background:var(--soft)}
 .nav li a.go{background:var(--sun);color:#10261c;text-shadow:none}
 #mb{display:none;margin-left:auto;background:none;border:2px solid currentColor;color:inherit;border-radius:999px;font:700 15px 'DM Sans';padding:6px 16px;cursor:pointer}
-@media(max-width:860px){#mb{display:block}.nav ul{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;padding:12px 5vw 20px;background:var(--sheet);color:var(--ink);text-shadow:none;box-shadow:0 12px 24px rgba(0,0,0,.15)}.nav.o ul{display:flex}.nav.o{background:var(--sheet);color:var(--ink);text-shadow:none}}
+.lang{display:flex;gap:6px;margin-left:auto}
+.lang button{background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:6px;font:600 14px 'DM Sans';padding:6px 10px;cursor:pointer;transition:all .2s}
+.lang button:hover{background:rgba(255,255,255,.25);transform:scale(1.05)}
+.lang button.active{background:var(--sun);color:#10261c;border-color:var(--sun)}
+.nav.s .lang button{color:var(--ink);border-color:var(--line);background:var(--soft)}
+.nav.s .lang button:hover{background:var(--sheet);border-color:var(--mute)}
+.nav.s .lang button.active{background:var(--sun);color:#10261c;border-color:var(--sun)}
+@media(max-width:860px){#mb{display:block}.lang{margin-left:0;order:-1}.nav ul{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;padding:12px 5vw 20px;background:var(--sheet);color:var(--ink);text-shadow:none;box-shadow:0 12px 24px rgba(0,0,0,.15)}.nav.o ul{display:flex}.nav.o{background:var(--sheet);color:var(--ink);text-shadow:none}}
 .btn{display:inline-flex;align-items:center;height:54px;padding:0 28px;border-radius:999px;font:700 17px 'Bricolage Grotesque',sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .15s}
 .btn:hover{transform:translateY(-2px)}
 .btn.p{background:var(--sun);color:#10261c}.btn.g{background:rgba(255,255,255,.16);color:#fff;border:2px solid rgba(255,255,255,.75);backdrop-filter:blur(6px)}
@@ -84,6 +91,11 @@ footer{background:var(--sheet);padding:30px 5vw 60px;color:var(--mute);font-size
 <canvas id="w"></canvas><div id="t"></div>
 <header class="nav" id="nav">
 <a class="logo" href="#home"><canvas class="ic" data-i="0" data-s="1"></canvas>Pixel Village</a>
+<div class="lang">
+<button onclick="setLang('uk')" class="active" data-lang="uk">🇺🇦 UA</button>
+<button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
+<button onclick="setLang('ru')" data-lang="ru">🇷🇺 RU</button>
+</div>
 <button id="mb" aria-label="Menu">Menu</button>
 <ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#features">Features</a></li><li><a href="#updates">Updates</a></li><li><a class="go" href="#download">Download</a></li></ul>
 </header>
@@ -282,6 +294,107 @@ const BI=[['Meadow village','Rooftops, a market road and neighbours out for a wa
 $$('.tab').forEach((b,i)=>b.onclick=()=>{$$('.tab').forEach(t=>t.setAttribute('aria-selected',t==b));bt=[BI[i][2],BI[i][3]];$('#bn').textContent=BI[i][0];$('#bd').textContent=BI[i][1]});
 const nav=$('#nav');const ns=()=>nav.classList.toggle('s',scrollY>40);addEventListener('scroll',ns,{passive:true});ns();
 $('#mb').onclick=()=>nav.classList.toggle('o');$$('.nav li a').forEach(a=>a.onclick=()=>nav.classList.remove('o'));
+
+// Багатомовність
+const translations = {
+  uk: {
+    title: 'Pixel Village — Будуй свій маленький світ',
+    hero_h1: 'Будуй свій маленький світ',
+    hero_sub: 'Створюй, досліджуй і оживляй своє село',
+    btn_play: 'Грати зараз',
+    btn_explore: 'Досліджувати світ',
+    nav_home: 'Головна',
+    nav_about: 'Про гру',
+    nav_features: 'Особливості',
+    nav_updates: 'Оновлення',
+    nav_download: 'Завантажити',
+    about_h2: 'Спокійне місце для будівництва.',
+    about_lead: 'Pixel Village — це розслаблена пісочниця. Прокладай дороги, будуй будинки, саджай поля та спостерігай як жителі заповнюють вулиці. Немає таймерів, тож будуй у своєму темпі.',
+    features_h2: 'Що можна робити у твоєму селі',
+    updates_h2: 'Останні оновлення',
+    download_h2: 'Завантажити гру',
+    community_h2: 'Приєднуйся до спільноти',
+    footer: '© 2026 Pixel Village'
+  },
+  en: {
+    title: 'Pixel Village — Build your own little world',
+    hero_h1: 'Build your own little world',
+    hero_sub: 'Create, explore and bring your own village to life',
+    btn_play: 'Play now',
+    btn_explore: 'Explore world',
+    nav_home: 'Home',
+    nav_about: 'About',
+    nav_features: 'Features',
+    nav_updates: 'Updates',
+    nav_download: 'Download',
+    about_h2: 'A quiet place to build.',
+    about_lead: 'Pixel Village is a relaxed sandbox. Lay out roads, raise cottages, plant fields and watch villagers fill the streets. There are no timers, so you can build at your own pace.',
+    features_h2: 'What you can do in your village',
+    updates_h2: 'Latest updates',
+    download_h2: 'Download the game',
+    community_h2: 'Join the community',
+    footer: '© 2026 Pixel Village'
+  },
+  ru: {
+    title: 'Pixel Village — Построй свой маленький мир',
+    hero_h1: 'Построй свой маленький мир',
+    hero_sub: 'Создавай, исследуй и оживляй свою деревню',
+    btn_play: 'Играть сейчас',
+    btn_explore: 'Исследовать мир',
+    nav_home: 'Главная',
+    nav_about: 'О игре',
+    nav_features: 'Особенности',
+    nav_updates: 'Обновления',
+    nav_download: 'Скачать',
+    about_h2: 'Спокойное место для строительства.',
+    about_lead: 'Pixel Village — это расслабленная песочница. Прокладывай дороги, строй дома, сажай поля и наблюдай как жители заполняют улицы. Нет таймеров, так что строй в своём темпе.',
+    features_h2: 'Что можно делать в твоей деревне',
+    updates_h2: 'Последние обновления',
+    download_h2: 'Скачать игру',
+    community_h2: 'Присоединяйся к сообществу',
+    footer: '© 2026 Pixel Village'
+  }
+};
+
+function setLang(lang) {
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  document.title = translations[lang].title;
+
+  // Оновлення кнопок мови
+  $$('.lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+
+  // Оновлення тексту
+  const t = translations[lang];
+  $('.hero h1').textContent = t.hero_h1;
+  $('.hero .sub').textContent = t.hero_sub;
+  $$('.hero .btn')[0].textContent = t.btn_play;
+  $$('.hero .btn')[1].textContent = t.btn_explore;
+
+  // Навігація
+  const navLinks = $$('.nav ul li a');
+  navLinks[0].textContent = t.nav_home;
+  navLinks[1].textContent = t.nav_about;
+  navLinks[2].textContent = t.nav_features;
+  navLinks[3].textContent = t.nav_updates;
+  navLinks[4].textContent = t.nav_download;
+
+  // Секції
+  $('#about h2').textContent = t.about_h2;
+  $('#about .lead').textContent = t.about_lead;
+  $('#features h2').textContent = t.features_h2;
+  $('#updates h2').textContent = t.updates_h2;
+  $('#download h2').textContent = t.download_h2;
+  $('#community h2').textContent = t.community_h2;
+  $('footer').textContent = t.footer;
+}
+
+// Автовизначення мови або завантаження збереженої
+const savedLang = localStorage.getItem('lang');
+const browserLang = navigator.language.split('-')[0];
+const defaultLang = savedLang || (['uk', 'ru'].includes(browserLang) ? browserLang : 'uk');
+setLang(defaultLang);
+
 resize();requestAnimationFrame(loop);
 </script>
 </body>
